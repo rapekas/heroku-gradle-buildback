@@ -219,9 +219,13 @@ task stage(dependsOn: ['setupTomcat', ':app-core:deploy', ':app-web:deploy']) {
 cuba.automaticDatabaseUpdate = true
         '''
         
-        // add local.app.properties for ROOT context 
+        // rename deploy/tomcat/webapps/app deploy/tomcat/webapps/ROOT -- for ROOT context
+        def webAppDir = new File('deploy/tomcat/webapps/app')
+        file.renameTo( new File('deploy/tomcat/webapps/ROOT') )
+        
+        // add local.app.properties -- for ROOT context 
         def webConfDir = new File('deploy/tomcat/conf/ROOT/')
-        webConfDir.mkdirs()        
+        webConfDir.mkdirs()
         def webProperties = new File(webConfDir, 'local.app.properties')
         coreProperties.text = '''
 cuba.webContextName = /
