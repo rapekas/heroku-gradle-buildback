@@ -203,6 +203,7 @@ task stage(dependsOn: ['setupTomcat', ':app-core:deploy', ':app-web:deploy']) {
         // todo copy war-context.xml to deploy/tomcat/webapps/app-core/META-INF/context.xml
         def src = new File('modules/core/web/META-INF/war-context.xml')
         def dst = new File('deploy/tomcat/webapps/app-core/META-INF/context.xml')
+        dst.delete()
         dst << src.text
         
         def file = new File('deploy/tomcat/conf/server.xml')
