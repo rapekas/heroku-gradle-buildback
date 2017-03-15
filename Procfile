@@ -1,0 +1,1 @@
+web: cd ./deploy/tomcat/bin && ./catalina.sh run

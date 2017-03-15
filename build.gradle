@@ -1,4 +1,3 @@
-
 buildscript {
     ext.cubaVersion = '6.4.2'
     repositories {
@@ -16,7 +15,6 @@ buildscript {
 
         classpath "com.haulmont.cuba:cuba-global:$cubaVersion"
 
-        
     }
 }
 
@@ -26,7 +24,6 @@ def guiModule = project(':app-gui')
 def webModule = project(':app-web')
 
 def servletApi = 'org.apache.tomcat:tomcat-servlet-api:8.0.26'
-
 
 apply(plugin: 'idea')
 apply(plugin: 'cuba')
@@ -200,3 +197,10 @@ task wrapper(type: Wrapper) {
 }
 
 apply from: 'extra.gradle'
+
+task stage(dependsOn: ['setupTomcat', ':app-core:deploy', ':app-web:deploy']) {
+    doLast {
+        // todo copy war-context.xml to deploy/tomcat/webapps/app-core/META-INF/context.xml
+        // todo change port in deploy/tomcat/conf/server.xml
+    }
+}
