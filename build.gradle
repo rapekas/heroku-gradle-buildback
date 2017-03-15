@@ -201,15 +201,9 @@ apply from: 'extra.gradle'
 task stage(dependsOn: ['setupTomcat', ':app-core:deploy', ':app-web:deploy']) {
     doLast {
         // todo copy war-context.xml to deploy/tomcat/webapps/app-core/META-INF/context.xml
-        
-        // todo change port in deploy/tomcat/conf/server.xml
-        // todo read file text, replace 8080 -> ${port.http}, write text back
-        
-        new File( 'deploy/tomcat/conf/server.xml' ).withWriter { w ->
-        new File( 'deploy/tomcat/conf/server.xml' ).eachLine { line ->
-        w << line.replaceAll( '8080', '${port.http}' ) + System.getProperty("line.separator")
-        }
-        }
-        
+                
+        def file = new File('deploy/tomcat/conf/server.xml')
+        def newConfig = file.text.replace('8080', '${port.http}')
+        file.text = newConfig
     }
 }
