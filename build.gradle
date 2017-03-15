@@ -200,21 +200,21 @@ apply from: 'extra.gradle'
 
 task stage(dependsOn: ['setupTomcat', ':app-core:deploy', ':app-web:deploy']) {
     doLast {
-        // todo copy war-context.xml to deploy/tomcat/webapps/app-core/META-INF/context.xml
-        def src = new File('modules/core/web/META-INF/war-context.xml')
         def dst = new File('deploy/tomcat/webapps/app-core/META-INF/context.xml')
+        def src = new File('modules/core/web/META-INF/war-context.xml')
         dst.delete()
-        dst << src.text
+        src.renameTo(dst)
         
         def file = new File('deploy/tomcat/conf/server.xml')
         def newConfig = file.text.replace('8080', '${port.http}')
         file.text = newConfig
+        
+        def confDir = new File('deploy/tomcat/conf/app-core/')
+        confDir.mkdirs()
+        
+        def coreProperties = new File(confDir, 'local.app.properties')
+        coreProperties.text = '''
+cuba.automaticDatabaseUpdate = true
+        '''
     }
-}
-task buildWar(type: CubaWarBuilding) {
-    coreContextXmlPath = 'modules/core/web/META-INF/war-context.xml'
-    webXmlPath = 'modules/web/web/WEB-INF/single-war-web.xml'
-    appProperties = ['cuba.automaticDatabaseUpdate' : true]
-    includeContextXml = true
-    appHome = '.'
 }

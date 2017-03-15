@@ -1,1 +1,1 @@
-web: cd ./deploy/tomcat/bin && set "JAVA_OPTS=-Dport.http=$PORT" && ./catalina.sh run
+web: cd ./deploy/tomcat/bin && set 'JAVA_OPTS=-Dport.http=$PORT' && ./catalina.sh run
