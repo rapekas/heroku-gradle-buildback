@@ -234,7 +234,7 @@ cuba.automaticDatabaseUpdate = true
         def webConfDir = new File('deploy/tomcat/conf/ROOT/')
         webConfDir.mkdirs()
         def webProperties = new File(webConfDir, 'local.app.properties')
-        coreProperties.text = '''
+        webProperties.text = '''
 cuba.webContextName = /
         '''
     }
