@@ -220,8 +220,15 @@ cuba.automaticDatabaseUpdate = true
         '''
         
         // rename deploy/tomcat/webapps/app deploy/tomcat/webapps/ROOT -- for ROOT context
+        // first delete folder if ROOT directory exists
+        def rootFolder = new File('deploy/tomcat/webapps/ROOT')
+        
+        if (rootFolder.exists()) {
+            rootFolder.deleteDir()
+        }
+        
         def webAppDir = new File('deploy/tomcat/webapps/app')
-        file.renameTo( new File('deploy/tomcat/webapps/ROOT') )
+        webAppDir.renameTo( new File('deploy/tomcat/webapps/ROOT') )
         
         // add local.app.properties -- for ROOT context 
         def webConfDir = new File('deploy/tomcat/conf/ROOT/')
